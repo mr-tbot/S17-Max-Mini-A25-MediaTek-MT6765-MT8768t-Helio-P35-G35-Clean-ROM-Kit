@@ -531,6 +531,8 @@ These hidden dialer codes work on the **original stock Chinese ROM** (before fla
 
 The entire process — from identifying the malware to building and flashing the clean ROM — was performed using **GitHub Copilot** (Claude Opus 4.6) as an AI coding agent, running terminal commands, writing scripts, and performing security analysis, with a human providing direction and physical device interaction.
 
+Basically - install VSCODE - pay for Copilot Pro - plug in the device to the machine - inform copilot that the phone is plugged in and provide it my instructions.md file - ask it to install necessary things like the Android SDK, ADB / Platform toolks, and any relevant MediaTek tools - and ask it to backup the original images first and then interactively help you clean and make a GSI rom for the device.  It took some trial and error and one strange bricked device - so proceed with caution - but the latest Claude and VSCODE made this incredibly easy to do!  You can also use this method on any Android device to diagnose and clean up any device - just enable ADB debugging over USB and let'er rip!
+
 For the full technical story, see:
 - **[HOW-I-DID-IT.md](HOW-I-DID-IT.md)** — narrative of the entire process
 - **[INSTRUCTIONS.md](INSTRUCTIONS.md)** — detailed technical build log with every command
