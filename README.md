@@ -1,4 +1,4 @@
-# Welcome S17 Max Mini / A25 — Clean ROM Kit
+# Welcome / Iku S17 Max Mini / A25 — Clean ROM Kit
 
 ### MediaTek MT6765/MT8768t (Helio P35/G35) | Android 12 GSI | GPU Fix Included
 
