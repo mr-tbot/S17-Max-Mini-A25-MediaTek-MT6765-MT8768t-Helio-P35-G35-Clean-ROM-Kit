@@ -14,6 +14,7 @@
 - [What's In This Kit](#whats-in-this-kit)
 - [Hardware Specifications](#hardware-specifications)
 - [Prerequisites](#prerequisites)
+- [Back Up Your Device First](#back-up-your-device-first)
 - [Flashing Guide (Step-by-Step)](#flashing-guide-step-by-step)
   - [Step 1 — Install Dependencies](#step-1--install-dependencies)
   - [Step 2 — Verify Image Integrity](#step-2--verify-image-integrity)
@@ -29,6 +30,7 @@
 - [Troubleshooting](#troubleshooting)
 - [Dialer Codes (Stock ROM Only)](#dialer-codes-stock-rom-only)
 - [How This ROM Was Built](#how-this-rom-was-built)
+- [Support / Donate](#support--donate)
 - [Disclaimer](#disclaimer)
 - [License](#license)
 
@@ -144,9 +146,54 @@ This kit replaces the entire system partition with **Google's official Generic S
 
 ---
 
+## Back Up Your Device First
+
+> **Always back up your device before flashing — even though this kit includes stock partition backups, backing up your own device is essential best practice.**
+
+Flashing is a destructive operation. If something goes wrong, having your own backup means you can always restore your specific device to its original state.
+
+### What to Back Up
+
+1. **Personal data** — photos, contacts, messages, app data. Copy anything important off the device before starting.
+
+2. **Full partition backup via mtkclient** — this captures every partition on the device at the BROM level:
+
+```bash
+# Put device in BROM mode (power off → Vol Up+Down → plug USB)
+cd tools/mtkclient
+pip install -r requirements.txt
+
+# Back up ALL partitions (takes ~30 minutes)
+python3 mtk.py rl ~/my_a25_backup --skip userdata
+```
+
+Or use the included backup script for a guided backup:
+
+```bash
+chmod +x scripts/a25_backup_script.sh
+./scripts/a25_backup_script.sh
+```
+
+3. **Verify your backups exist** before proceeding:
+
+```bash
+ls -lh ~/my_a25_backup/
+# You should see: boot.bin, super.bin, vbmeta.bin, lk.bin, lk2.bin, recovery.bin, etc.
+```
+
+### Why Back Up Even Though Stock Images Are Included?
+
+- The stock backups in this kit are from **one specific device** — yours may have slightly different firmware versions or calibration data
+- Partitions like `nvram` and `nvcfg` contain **device-unique data** (IMEI, Wi-Fi/Bluetooth MAC, RF calibration) that cannot be restored from another device's backup
+- If BROM mode stops working (rare but possible), having a pre-flash backup is your only recovery option
+
+> **Bottom line:** Spend the 30 minutes on a full backup. You will not regret it.
+
+---
+
 ## Flashing Guide (Step-by-Step)
 
-> **WARNING:** Flashing will erase all data on the device. Back up anything you need first.
+> **WARNING:** Flashing will erase all data on the device. Back up anything you need first (see [Back Up Your Device First](#back-up-your-device-first)).
 
 ### Step 1 — Install Dependencies
 
@@ -248,6 +295,8 @@ python3 mtk.py w super ../../images/super_clean_gsi.bin
 3. **Wait 3-5 minutes** — the first boot is slow as Android optimizes apps
 4. You may see a **"System has been destroyed"** warning — this is normal for GSI installs, just proceed
 5. Complete the **Android setup wizard**
+
+> **If the device does not boot or gets stuck on the logo:** You may need to perform a factory reset before the device will boot the new ROM. Enter recovery mode (power off → hold **Volume Up + Power** until the recovery menu appears), select **"Wipe data / factory reset"**, confirm, then reboot. This is common when flashing a new system image over an existing installation.
 
 ### Step 6 — Post-Flash Setup
 
@@ -443,6 +492,12 @@ Summary of the process:
 - Ensure vbmeta was flashed with verification disabled
 - Reflash both `vbmeta_disabled.img` and `super_clean_gsi.bin`
 
+### Device won't boot / stuck on logo after flash
+- The device may require a **factory reset** before it will boot the new ROM
+- Enter recovery mode: power off → hold **Volume Up + Power** until the recovery menu appears
+- Select **"Wipe data / factory reset"** → confirm → reboot
+- This is common when flashing a new system image over an existing data partition
+
 ### "System has been destroyed" message
 - **This is normal** after flashing a GSI — not an error
 - The device will boot normally after this message
@@ -499,6 +554,16 @@ For the full technical story, see:
 | `scripts/post-flash-setup.sh` | GPU verification, display config, disable animations, security checks | After first boot + setup wizard |
 | `scripts/disable-vendor-apps.sh` | Disable WhatsApp & X/Twitter from the malicious vendor ROM | After first boot |
 | `scripts/a25_backup_script.sh` | Full partition backup of all device partitions | Before flash (optional) |
+
+---
+
+## Support / Donate
+
+If this kit saved your device (or your sanity), consider supporting the development of [MR-TBOT.com](https://mr-tbot.com) and [Codedatda.casa](https://codedatda.casa) projects. Your donations help fund continued work on open-source tools, device research, and guides like this one.
+
+### [**Donate via PayPal**](https://www.paypal.com/donate/?business=7DQWLBARMM3FE&no_recurring=0&item_name=Support+the+development+and+growth+of+innovative+MR_TBOT+projects.&currency_code=USD)
+
+Every contribution — no matter the size — is appreciated and goes directly toward keeping these projects alive.
 
 ---
 
