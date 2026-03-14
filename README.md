@@ -2,6 +2,8 @@
 
 ### MediaTek MT6765/MT8768t (Helio P35/G35) | Android 12 GSI | GPU Fix Included
 
+![S17-Max-Mini](S17-max-mini.png?raw=true "S17-Max-Mini")
+
 > **One-line summary:** Replaces the malware-infested Chinese stock firmware with a clean Google Android 12 Generic System Image, including a critical GPU fix for the PowerVR GE8320.
 
 ---
