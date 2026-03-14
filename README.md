@@ -8,6 +8,7 @@
 
 ## Table of Contents
 
+- [Download](#download)
 - [About This Device](#about-this-device)
 - [Why This Exists](#why-this-exists)
 - [What's In This Kit](#whats-in-this-kit)
@@ -30,6 +31,29 @@
 - [How This ROM Was Built](#how-this-rom-was-built)
 - [Disclaimer](#disclaimer)
 - [License](#license)
+
+---
+
+## Download
+
+> **The full kit (~7 GB) is too large for GitHub.** Download it from Google Drive:
+
+### [**Download Clean ROM Kit (Google Drive)**](https://drive.google.com/drive/folders/1QDIGHy6e0DY7Sg-XCp5KcUlZ7gw4OT85?usp=sharing)
+
+The link contains a ZIP archive with everything — flash images, scripts, backups, tools, and documentation.
+
+**After downloading:**
+
+```bash
+# 1. Extract the archive
+unzip "Welcome_S17_Max_Mini_Clean_ROM_Kit.zip"
+
+# 2. Verify integrity (compare against CHECKSUMS.sha256)
+cd "Welcome S17 Max Mini"*
+sha256sum -c CHECKSUMS.sha256
+```
+
+All checksums should report `OK`. **Do not flash if any checksum fails.**
 
 ---
 
