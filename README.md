@@ -1,5 +1,6 @@
 # Welcome / Iku S17 Max Mini / A25 — Clean ROM Kit
-Join the official XDA forum on this topic: https://xdaforums.com/t/welcome-iku-s17-max-mini-a25-mt6765-my8768t-helio-p35-g35-clean-stock-android-12-rom-with-optional-root-kit.4782153/
+Join the official XDA forum on this topic: 
+https://xdaforums.com/t/welcome-iku-s17-max-mini-a25-mt6765-my8768t-helio-p35-g35-clean-stock-android-12-rom-with-optional-root-kit.4782153/
 
 ### MediaTek MT6765/MT8768t (Helio P35/G35) | Android 12 GSI | GPU Fix Included
 
