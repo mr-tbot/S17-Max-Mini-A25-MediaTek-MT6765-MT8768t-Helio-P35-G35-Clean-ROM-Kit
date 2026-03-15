@@ -293,7 +293,7 @@ python3 mtk.py w super ../../images/super_clean_gsi.bin
 ### Step 5 — First Boot
 
 1. **Unplug** the USB cable
-2. **Power on** the device (hold power button)
+2. **Power on** the device (hold power button) (it will now complain that it is bootloader unlocked and you need to press any button on the device when the warning pops up to get it to boot - this is normal behavior on these devices when their bootloader is unlocked. - if you don't the phone will shut back off and not boot)
 3. **Wait 3-5 minutes** — the first boot is slow as Android optimizes apps
 4. You may see a **"System has been destroyed"** warning — this is normal for GSI installs, just proceed
 5. Complete the **Android setup wizard**
