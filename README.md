@@ -2,11 +2,11 @@
 [Join the official XDA forum on this topic](https://xdaforums.com/t/welcome-iku-s17-max-mini-a25-mt6765-my8768t-helio-p35-g35-clean-stock-android-12-rom-with-optional-root-kit.4782153/)
 
 
-### MediaTek MT6765/MT8768t (Helio P35/G35) | Android 12 GSI | GPU Fix Included
+### MediaTek MT6765/MT8768t (Helio P35/G35) | Android 12 GSI | All Fixes Baked In
 
 ![S17-Max-Mini](S17-max-mini.png?raw=true "S17-Max-Mini")
 
-> **One-line summary:** Replaces the malware-infested Chinese stock firmware with a clean Google Android 12 Generic System Image, including a critical GPU fix for the PowerVR GE8320.
+> **One-line summary:** Replaces the malware-infested Chinese stock firmware with a clean Google Android 12 Generic System Image — with GPU fix, display resolution fix, and rounded-corner overlays all baked into the image. Flash it and everything works.
 
 ---
 
@@ -27,7 +27,7 @@
   - [Step 5 — First Boot](#step-5--first-boot)
   - [Step 6 — Post-Flash Setup](#step-6--post-flash-setup)
 - [Verifying Your Flash](#verifying-your-flash)
-- [GPU Fix Explained](#gpu-fix-explained)
+- [Baked-In Fixes](#baked-in-fixes)
 - [Vendor Partition & Security Audit](#vendor-partition--security-audit)
 - [Backup & Restore](#backup--restore)
 - [Rooting (Optional)](#rooting-optional)
@@ -99,7 +99,8 @@ This kit replaces the entire system partition with **Google's official Generic S
 ├── CHECKSUMS.sha256              ← SHA256 checksums for verification
 │
 ├── images/
-│   ├── super_clean_gsi.bin       ← READY-TO-FLASH clean super image (6.7 GB)
+│   ├── super_clean_gsi.bin       ← READY-TO-FLASH super image with ALL fixes (6.7 GB)
+│   │                                GPU fix + display fix + rounded-corner overlays
 │   ├── vbmeta_disabled.img       ← Disabled vbmeta (required for GSI boot)
 │   └── gsi_gms_arm64-12.0-*.zip  ← Original Google GSI download (reference)
 │
@@ -319,8 +320,8 @@ chmod +x scripts/post-flash-setup.sh scripts/disable-vendor-apps.sh
 ```
 
 This script will:
-- Verify the GPU fix is active
-- Set optimal display resolution (720x1520 @ 320dpi)
+- Verify the GPU fix is active (baked into the system image)
+- Verify display resolution fix is active (720x1600 @ 320dpi — baked into the system image)
 - Disable animations for snappier performance
 - Disable untrusted vendor apps (WhatsApp/X from the malicious ROM)
 - Run a security verification checklist
@@ -341,6 +342,12 @@ After completing the flash and setup, verify everything is correct:
 # GPU fix active
 adb shell getprop debug.renderengine.backend
 # Expected: gles
+
+# Display fix active
+adb shell wm size
+# Expected: Physical size: 384x854 / Override size: 720x1600
+adb shell wm density
+# Expected: Physical density: 213 / Override density: 320
 
 # SELinux enforcing
 adb shell getenforce
@@ -373,25 +380,50 @@ adb shell getprop ro.secure
 | ADB | Requires authorization |
 | Network listeners at idle | None |
 | Debuggable | No (`ro.debuggable=0`) |
+| GPU backend | `gles` |
+| Display resolution | 720x1600 @ 320dpi |
 
 ---
 
-## GPU Fix Explained
+## Baked-In Fixes
 
-The **PowerVR GE8320 GPU** in MT6765 devices crashes when Android 12 GSI's SurfaceFlinger uses the default **Skia GL** rendering backend. Without this fix, the display freezes or crashes within seconds of booting.
+All fixes are pre-applied inside `super_clean_gsi.bin`. No manual configuration is needed — just flash and go.
 
-**The fix:** An init script baked into the system image forces the GLES rendering backend:
+### GPU Fix (PowerVR GE8320)
+
+The **PowerVR GE8320 GPU** crashes when Android 12 GSI's SurfaceFlinger uses the default **Skia GL** rendering backend. Without this fix, the display freezes within seconds of booting.
 
 ```
 # /system/etc/init/gpu-fix.rc
 on early-init
     setprop debug.renderengine.backend gles
-
 on boot
     setprop debug.renderengine.backend gles
 ```
 
-This is already included in `super_clean_gsi.bin` — no manual action required.
+### Display Resolution Fix
+
+The physical panel is **384×854** — an unusably low resolution that causes UI elements to overlap. An init script overrides the resolution to **720×1600 @ 320dpi** (HD+ 20:9), matching the panel's native aspect ratio for edge-to-edge rendering.
+
+```
+# /system/etc/init/display-fix.rc
+on property:sys.boot_completed=1
+    exec -- /system/bin/wm size 720x1600
+    exec -- /system/bin/wm density 320
+```
+
+This survives reboots and factory resets since it's baked into the system partition.
+
+### Rounded-Corner Overlays
+
+The device has rounded physical corners that clip the status bar clock and icons. Two RRO (Runtime Resource Overlay) APKs are included in `/system/product/overlay/`:
+
+| Overlay | Target | Effect |
+|---|---|---|
+| `FrameworkRoundedCorners.apk` | `android` | 20dp rounded corner radius (top + bottom) |
+| `SystemUIRoundedPadding.apk` | `com.android.systemui` | 16dp status bar padding, 12dp content inset |
+
+These ensure UI elements stay clear of the curved display edges.
 
 ---
 
@@ -492,6 +524,11 @@ Summary of the process:
 - Reflash using `super_clean_gsi.bin` (it has the fix baked in)
 - Verify: `adb shell getprop debug.renderengine.backend` should output `gles`
 
+### Display resolution looks wrong / UI elements overlap
+- The display fix is baked into the super image and activates on every boot
+- Verify: `adb shell wm size` should show `720x1600` and `adb shell wm density` should show `320`
+- If not active, run: `adb shell wm size 720x1600 && adb shell wm density 320`
+
 ### Boot loops
 - Ensure vbmeta was flashed with verification disabled
 - Reflash both `vbmeta_disabled.img` and `super_clean_gsi.bin`
@@ -545,10 +582,12 @@ For the full technical story, see:
 
 1. **Backup** all stock partitions via mtkclient (BROM mode)
 2. **Download** Google's official GSI (`gsi_gms_arm64` Android 12)
-3. **Inject** GPU fix init script into the system image (`debug.renderengine.backend=gles`)
-4. **Repackage** into the device's super partition format using `lpmake` (LP metadata)
-5. **Flash** via mtkclient: unlock bootloader → disable vbmeta → write super partition
-6. **Audit** the retained vendor partition for security
+3. **Inject** GPU fix init script (`debug.renderengine.backend=gles`)
+4. **Inject** display fix init script (`wm size 720x1600`, `wm density 320`)
+5. **Build & inject** RRO overlay APKs for rounded-corner padding
+6. **Repackage** into the device's super partition format using `lpmake` (LP metadata)
+7. **Flash** via mtkclient: unlock bootloader → disable vbmeta → write super partition
+8. **Audit** the retained vendor partition for security
 
 ---
 
@@ -557,7 +596,7 @@ For the full technical story, see:
 | Script | Purpose | When to Run |
 |---|---|---|
 | `scripts/flash.sh` | Full automated flash (backup → unlock → flash vbmeta → flash super) | During flash |
-| `scripts/post-flash-setup.sh` | GPU verification, display config, disable animations, security checks | After first boot + setup wizard |
+| `scripts/post-flash-setup.sh` | Verify baked-in fixes (GPU + display), disable animations, security checks | After first boot + setup wizard |
 | `scripts/disable-vendor-apps.sh` | Disable WhatsApp & X/Twitter from the malicious vendor ROM | After first boot |
 | `scripts/a25_backup_script.sh` | Full partition backup of all device partitions | Before flash (optional) |
 
