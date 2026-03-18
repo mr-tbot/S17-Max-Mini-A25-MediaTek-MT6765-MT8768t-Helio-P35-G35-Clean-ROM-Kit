@@ -20,6 +20,7 @@
 - [Prerequisites](#prerequisites)
 - [Back Up Your Device First](#back-up-your-device-first)
 - [Flashing Guide (Step-by-Step)](#flashing-guide-step-by-step)
+  - [Step 0 — Enable OEM Unlock](#step-0--enable-oem-unlock-on-the-device)
   - [Step 1 — Install Dependencies](#step-1--install-dependencies)
   - [Step 2 — Verify Image Integrity](#step-2--verify-image-integrity)
   - [Step 3 — Enter BROM Mode](#step-3--enter-brom-mode)
@@ -199,6 +200,18 @@ ls -lh ~/my_a25_backup/
 ## Flashing Guide (Step-by-Step)
 
 > **WARNING:** Flashing will erase all data on the device. Back up anything you need first (see [Back Up Your Device First](#back-up-your-device-first)).
+
+### Step 0 — Enable OEM Unlock on the Device
+
+Before you can flash anything, the device must have **OEM Unlocking** enabled. This is a software toggle that permits the bootloader to be unlocked.
+
+1. Open **Settings** → **About Phone**
+2. Tap **Build Number** 7 times rapidly — you'll see "You are now a developer!"
+3. Go back to **Settings** → **System** → **Developer Options**
+4. Scroll down and enable **OEM Unlocking** (toggle it ON)
+5. Confirm when prompted
+
+> **If OEM Unlocking is greyed out:** Connect to Wi-Fi, sign into a Google account, and wait 24 hours. Some devices require an active internet connection and a linked Google account before allowing OEM unlock. If it remains greyed out after that, the device may need to be flashed via BROM mode without this step — mtkclient can bypass this restriction on MediaTek devices.
 
 ### Step 1 — Install Dependencies
 
