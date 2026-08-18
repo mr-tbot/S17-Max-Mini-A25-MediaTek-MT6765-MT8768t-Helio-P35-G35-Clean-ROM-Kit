@@ -440,6 +440,11 @@ These ensure UI elements stay clear of the curved display edges.
 
 ---
 
+### Additional Side Button Fix
+The button sends a "#" symbol and can be mapped using "Button Mapper" from the play store to any function you want - I suggest getting the Pro version of this app if you need it.
+
+---
+
 ## Vendor Partition & Security Audit
 
 This clean ROM replaces only the **system** partition. The **vendor** partition (containing hardware drivers, HAL services, and firmware for the MT6765 SoC) is retained from the original device and is required for the hardware to function.
