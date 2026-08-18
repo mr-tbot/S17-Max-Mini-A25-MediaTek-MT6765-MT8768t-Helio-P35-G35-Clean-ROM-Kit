@@ -258,6 +258,14 @@ BROM (Boot ROM) mode allows low-level access to the device's flash storage via U
 │  2. Hold VOLUME UP + VOLUME DOWN simultaneously         │
 │  3. While holding both buttons, plug in the USB cable   │
 │  4. Keep holding until the flash tool detects the device│
+│                                                         │
+│  Please note: Sometimes it may be easier to leave the   |
+|  device plugged in, hold both volume buttons and hold   |
+|  the power button until the phone turns off - then re-  |
+|  lease the power button while holding the vol buttons.  |
+|  This achieves the same thing but may work if your      |
+|  device is being troublesome or stuck with a black      |
+|  screen at some point during the process.               |
 └─────────────────────────────────────────────────────────┘
 ```
 
