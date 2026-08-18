@@ -1,4 +1,4 @@
-# Welcome / Iku S17 Max Mini / A25 — Clean ROM Kit
+# Welcome / Iku S17 Max Mini / A25 — Clean ROM Kit (+ FULL STOCK RESTORE PARTITIONS FOR THE WELCOME BRANDED VERSION OF THIS DEVICE)
 [Join the official XDA forum on this topic](https://xdaforums.com/t/welcome-iku-s17-max-mini-a25-mt6765-my8768t-helio-p35-g35-clean-stock-android-12-rom-with-optional-root-kit.4782153/)
 
 
@@ -47,7 +47,7 @@
 
 ### [**Download Clean ROM Kit (Google Drive)**](https://drive.google.com/drive/folders/1QDIGHy6e0DY7Sg-XCp5KcUlZ7gw4OT85?usp=sharing)
 
-The link contains a ZIP archive with everything — flash images, scripts, backups, tools, and documentation.
+The link contains a ZIP archive with everything — flash images, scripts, backups, tools, and documentation.  The Clean ROM kit includes a backup file that should help most people - but if you really get stuck a second ZIP file is included entitled "s17-a25-stock-backup.zip" which is a full stock dump directly off of a "Welcome" branded version of this device.
 
 **After downloading:**
 
