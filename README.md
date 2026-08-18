@@ -45,7 +45,7 @@
 
 > **The full kit (~7 GB) is too large for GitHub.** Download it from Google Drive:
 
-### [**Download Clean ROM Kit (Google Drive)**](https://drive.google.com/drive/folders/1QDIGHy6e0DY7Sg-XCp5KcUlZ7gw4OT85?usp=sharing)
+### [**Download Clean ROM Kit + Stock Restore Backup ZIPs (Google Drive)**](https://drive.google.com/drive/folders/1QDIGHy6e0DY7Sg-XCp5KcUlZ7gw4OT85?usp=sharing)
 
 The link contains a ZIP archive with everything — flash images, scripts, backups, tools, and documentation.  The Clean ROM kit includes a backup file that should help most people - but if you really get stuck a second ZIP file is included entitled "s17-a25-stock-backup.zip" which is a full stock dump directly off of a "Welcome" branded version of this device.
 
